@@ -1,16 +1,170 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Products {
+  id               String            @id @default(uuid())
+  sku              String            @unique
+  name             String
+  description      String
+  price            String
+  dp               String
+  tags             Tag[]             @relation("ProductTag")
+  categories       Category[]        @relation("ProductCategory")
+  secImage         SecImage[]        @relation("ProductImages")
+  comments         Comment[]         @relation("ProductComments")
+  reviews          Reviews[]         @relation("ProductReviews")
+  productQuestions ProductQuestion[] @relation("ProductQuestions")
+}
+
+model Tag {
+  id      String     @id @default(uuid())
+  name    String
+  product Products[] @relation("ProductTag")
+}
+
+model Category {
+  id       String     @id @default(uuid())
+  name     String
+  products Products[] @relation("ProductCategory")
+}
+
+model SecImage {
+  id                String   @id @default(uuid())
+  image             String
+  secImageProductId String
+  product           Products @relation("ProductImages", fields: [secImageProductId], references: [id])
+
+  @@index([secImageProductId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  productId String
+  userId    String
+  product   Products @relation("ProductComments", fields: [productId], references: [id])
+  user      User     @relation("CustomerComments", fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model Reviews {
+  id          String        @id @default(uuid())
+  content     String
+  rating      Int
+  productId   String
+  userId      String
+  reviewImage ReviewImage[] @relation("ReviweImages")
+  product     Products      @relation("ProductReviews", fields: [productId], references: [id])
+  user        User          @relation("CustomerReviews", fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model ReviewImage {
+  id       String  @id @default(uuid())
+  image    String
+  reviewId String
+  review   Reviews @relation("ReviweImages", fields: [reviewId], references: [id])
+
+  @@index([reviewId])
+}
+
+model ProductQuestion {
+  id        String   @id @default(uuid())
+  content   String
+  productId String
+  userId    String
+  product   Products @relation("ProductQuestions", fields: [productId], references: [id])
+  user      User     @relation("CustomerProductQuestions", fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
 }
 
 model User {
-  id   String @id @unique @default(uuid())
-  name String
+  id               String            @id @default(uuid())
+  email            String            @unique
+  firstName        String
+  lastName         String
+  password         String
+  orders           Order[]           @relation("CustomerOrders")
+  returns          UserReturn[]      @relation("CustomerReturns")
+  comments         Comment[]         @relation("CustomerComments")
+  reviews          Reviews[]         @relation("CustomerReviews")
+  productQuestions ProductQuestion[] @relation("CustomerProductQuestions")
+}
+
+model Order {
+  id       String          @id @default(uuid())
+  userId   String
+  tracking String
+  products OrderProduct[]  @relation("OrderProducts")
+  user     User            @relation("CustomerOrders", fields: [userId], references: [id])
+  return   ReturnRequests? @relation("ReturnRequest")
+
+  @@index([userId])
+}
+
+model OrderProduct {
+  id      String @id @default(uuid())
+  orderId String
+  order   Order  @relation("OrderProducts", fields: [orderId], references: [id])
+
+  @@index([orderId])
+}
+
+model ReturnRequests {
+  id          String        @id @default(uuid())
+  orderId     String        @unique
+  issue       String
+  tracking    String
+  returnOrder Order?        @relation("ReturnRequest", fields: [orderId], references: [id])
+  image       ReturnImage[] @relation("ReturnImages")
+
+  @@index([orderId])
+}
+
+model UserReturn {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation("CustomerReturns", fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model ReturnImage {
+  id       String         @id @default(uuid())
+  image    String
+  returnId String
+  return   ReturnRequests @relation("ReturnImages", fields: [returnId], references: [id])
+
+  @@index([returnId])
+}
+
+model ProductCategory {
+  A String
+  B String
+
+  @@unique([A, B], map: "_ProductCategory_AB_unique")
+  @@index([B], map: "_ProductCategory_B_index")
+  @@map("_ProductCategory")
+}
+
+model ProductTag {
+  A String
+  B String
+
+  @@unique([A, B], map: "_ProductTag_AB_unique")
+  @@index([B], map: "_ProductTag_B_index")
+  @@map("_ProductTag")
 }
