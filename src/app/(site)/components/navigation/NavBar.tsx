@@ -21,14 +21,14 @@ function NavBar() {
       </div>
       <div className="flex items-center lg:flex-1 h-full">
         <div className="lg:flex-1 h-full">
-          <div className="lg:hidden">
+          <div className="lg:hidden h-full">
             <MobileSearch />
           </div>
           <div className="hidden lg:block relative h-full">
             <DesktopSearch />
           </div>
         </div>
-        <div>
+        <div className="flex items-center lg:mr-5">
           <div className="hidden lg:block">
             <Link href={"/"}>
               <Favorite />

@@ -14,7 +14,7 @@ function DesktopSearch() {
 
   return (
     <div className="relative top-0 right-0 w-full h-full px-5 flex items-center">
-      <div className="fixed left-0 top-0">
+      <div className="fixed left-0 top-0 z-10000000000">
         <div
           className={
             isOpen
@@ -29,7 +29,7 @@ function DesktopSearch() {
         onClick={() => setIsOpen(true)}
         className="w-full h-10 outline-none border-none rounded-md px-4"
       />
-      {isOpen && (<div className="absolute h-[400px] w-full top-[3.5rem] left-0 bg-white rounded-lg mt-1">
+      {isOpen && (<div className="absolute h-[400px] w-full top-[3.5rem] left-0 bg-white rounded-lg mt-1 z-50">
         <ScrollArea>
           
         </ScrollArea>
