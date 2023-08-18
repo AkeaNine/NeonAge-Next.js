@@ -2,7 +2,7 @@ import {AiFillHeart} from "react-icons/ai"
 function Favorite() {
   return (
     <div>
-        <AiFillHeart/>
+        <AiFillHeart size={25} />
     </div>
   )
 }

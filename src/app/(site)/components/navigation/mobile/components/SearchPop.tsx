@@ -42,14 +42,14 @@ function SearchPop() {
     const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
   return (
-    <div>
+    <div className="h-full">
         <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="px-2 bg-transparent border-none hover:bg-transparent"
+          className="px-2 h-full bg-transparent border-none hover:bg-transparent"
         >
           <BiSearch size={25}/>
         </Button>
