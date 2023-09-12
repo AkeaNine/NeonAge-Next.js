@@ -15,7 +15,6 @@ type Category = {
 
 const MoreCategories = async () => {
   const categoriesFromDatabase = await GetProductCategories();
-  console.log(categoriesFromDatabase);
 
   const categoriesChunks = [];
   const chunkSize = 5;

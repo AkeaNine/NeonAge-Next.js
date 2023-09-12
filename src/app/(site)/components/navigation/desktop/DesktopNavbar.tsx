@@ -46,7 +46,7 @@ function DesktopNavbar() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href={"/"}>
+              <Link href={"/account"}>
                 <p>Account</p>
               </Link>
             </NavigationMenuItem>

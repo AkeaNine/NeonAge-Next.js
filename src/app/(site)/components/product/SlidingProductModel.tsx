@@ -26,7 +26,7 @@ const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
           {product.discount > 0 && <p>-{product.discount}%</p>}
         </div>
         {/* @ts-ignore */}
-        <ProductImage image={product.images[0]} />
+        <Link href={`/products/${product._id}`}><ProductImage image={product.images[0]} /></Link>
       </div>
       {/* </Link> */}
       <CardHeader className="p-3">

@@ -1,10 +1,8 @@
 import BeforeChorkiBlock from "./components/BeforeChorkiBlock/BeforeChorkiBlock";
 import MoreCategories from "./components/MoreCategories/MoreCategories";
-import Chorki from "./components/chorki/Chorki";
 import FeaturedProducts from "./components/featured/FeaturedProducts";
 import Canvas from "./components/mainCanvas/Canvas";
 import TopSellingBlock from "./components/topSelling/TopSellingBlock";
-
 
 function Home() {
   return (
@@ -30,18 +28,14 @@ function Home() {
       </section>
       <section>
         <div className="w-full p-2 lg:p-5">
-          <BeforeChorkiBlock/>
+          <BeforeChorkiBlock />
         </div>
       </section>
-      {/* <div className="w-full p-2 lg:p-5">
-        <Chorki />
-      </div> */}
+      {/* // chorki */}
       <div className="w-full p-2 lg:p-5 flex justify-center">
-        <MoreCategories/>
+        <MoreCategories />
       </div>
-      <section>
-        
-      </section>
+      <section></section>
     </div>
   );
 }
