@@ -2,12 +2,16 @@ import ThemeContext from "@/context/ThemeContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import SessionContext from "@/context/SessionContext";
+import Navigation from "./(site)/MainComponents/Navigation";
+import MainFooter from "./(site)/MainComponents/MainFooter";
+import { Toaster } from "@/components/ui/toaster";
 
 const lato = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: '400'
-})
+  subsets: ["latin"],
+  display: "swap",
+  weight: "400",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={lato.className}>
       <body>
-        <ThemeContext>{children}</ThemeContext>
+        <SessionContext>
+          {children}
+          <Toaster />
+        </SessionContext>
       </body>
     </html>
   );

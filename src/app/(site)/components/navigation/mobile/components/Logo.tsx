@@ -6,6 +6,7 @@ function Logo() {
       Ne<span className="text-yellow-500">o</span>n
       <span className="text-blue-500 font-extrabold">Age</span>
     </div>
+    
   );
 }
 

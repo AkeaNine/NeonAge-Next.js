@@ -1,14 +1,8 @@
-import MainFooter from "../../MainComponents/MainFooter"
-import Navigation from "../../MainComponents/Navigation"
-import Product from "./components/Product"
+import MainFooter from "../../MainComponents/MainFooter";
+import Navigation from "../../MainComponents/Navigation";
+import CardBox from "./components/CardBox";
 
-interface PageProps {
-  params: {
-    id: any
-  }
-}
-
-const page: React.FC<PageProps> = ({params}) => {
+const page = () => {
   return (
     <div className="w-full min-h-[100vh] flex flex-col justify-between">
       <div className="w-full">
@@ -17,7 +11,9 @@ const page: React.FC<PageProps> = ({params}) => {
       <div className="w-full">
         <div className="flex justify-center">
           <section className="w-full max-w-[1399px]">
-            <Product />
+            <div className="w-full p-2 lg:p-5 flex justify-center">
+              <CardBox />
+            </div>
           </section>
         </div>
       </div>
@@ -25,7 +21,7 @@ const page: React.FC<PageProps> = ({params}) => {
         <MainFooter />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

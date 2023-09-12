@@ -1,15 +1,12 @@
-import MainFooter from "../../MainComponents/MainFooter"
-import Navigation from "../../MainComponents/Navigation"
-import Product from "./components/Product"
+import GetServerSession from "@/context/server/GetSession";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import AccountPage from "./components/AccountPage";
+import Navigation from "../MainComponents/Navigation";
+import MainFooter from "../MainComponents/MainFooter";
 
-interface PageProps {
-  params: {
-    id: any
-  }
-}
-
-const page: React.FC<PageProps> = ({params}) => {
-  return (
+const page = () => {
+  return(
     <div className="w-full min-h-[100vh] flex flex-col justify-between">
       <div className="w-full">
         <Navigation />
@@ -17,7 +14,7 @@ const page: React.FC<PageProps> = ({params}) => {
       <div className="w-full">
         <div className="flex justify-center">
           <section className="w-full max-w-[1399px]">
-            <Product />
+          <AccountPage />
           </section>
         </div>
       </div>
@@ -25,7 +22,7 @@ const page: React.FC<PageProps> = ({params}) => {
         <MainFooter />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

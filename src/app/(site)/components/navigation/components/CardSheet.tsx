@@ -7,10 +7,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useState } from "react";
 import { BiSolidShoppingBag } from "react-icons/bi";
 import { IoCloseSharp } from "react-icons/io5";
 
 function CardSheet() {
+
   return (
     <div>
       <Sheet>

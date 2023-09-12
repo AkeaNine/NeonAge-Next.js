@@ -12,6 +12,26 @@ export default {
       description: 'The name of the product',
     },
     {
+      title: 'DP',
+      name: 'dp',
+      type: 'image',
+      // options: {
+      //   hotspot: true // <-- Defaults to false
+      // },
+      fields: [
+        {
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+        },
+        {
+          name: 'attribution',
+          type: 'string',
+          title: 'Attribution',
+        }
+      ]
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'array',
