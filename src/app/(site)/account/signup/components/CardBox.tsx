@@ -25,6 +25,8 @@ const CardBox = () => {
   //   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLOading] = useState(false);
+
 
   const { toast } = useToast();
 
@@ -46,6 +48,7 @@ const CardBox = () => {
   } = form;
 
   const OnFormSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLOading(true)
     const userData = {
       email: data.email,
       password: data.password,
@@ -58,6 +61,7 @@ const CardBox = () => {
         }
       })
       .catch((err) => {
+        setIsLOading(false)
         toast({
           variant: "destructive",
           title: "Something went wrong.",
@@ -79,6 +83,7 @@ const CardBox = () => {
   }
 
   return (
+    <>
     <div className="w-full max-w-[500px]">
       <Card>
         <CardHeader>
@@ -222,6 +227,14 @@ const CardBox = () => {
         </div>
       </Card>
     </div>
+    <div
+    className={`loader-container ${
+      isLoading ? "loader-open" : "loader-close"
+    } absolute top-0 left-0 h-full w-full flex justify-center items-center`}
+  >
+    <span className="loader"></span>
+  </div>
+    </>
   );
 };
 

@@ -13,9 +13,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const CardBox = () => {
+  const [isLoading, setIsLOading] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -34,12 +37,14 @@ const CardBox = () => {
 
   const OnFormSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
+    setIsLOading(true)
     try {
       signIn("credentials", {
         ...data,
         redirect: false,
       }).then((res) => {
         if (res?.error) {
+          setIsLOading(false)
           toast({
             variant: "destructive",
             title: "Invalid Credentials",
@@ -50,11 +55,13 @@ const CardBox = () => {
         }
       });
     } catch (error: any) {
+      setIsLOading(false)
       console.log("Something went wrong");
     }
   };
 
   return (
+    <>
     <div className="w-full max-w-[500px]">
       <Card>
         <CardHeader>
@@ -135,6 +142,14 @@ const CardBox = () => {
         </div>
       </Card>
     </div>
+    <div
+    className={`loader-container ${
+      isLoading ? "loader-open" : "loader-close"
+    } absolute top-0 left-0 h-full w-full flex justify-center items-center`}
+  >
+    <span className="loader"></span>
+  </div>
+    </>
   );
 };
 

@@ -10,7 +10,11 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-const PasswordForm = () => {
+interface InformationFormProps {
+  func: (x: boolean) => void;
+}
+
+const PasswordForm: React.FC<InformationFormProps> = ({ func }) => {
   const [password, setPassword] = useState("");
 
   const { toast } = useToast();
@@ -27,18 +31,21 @@ const PasswordForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = form;
 
   const OnFormSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
-    
+    func(true);
     await axios
       .post("/api/user/updatePass", data)
       .then((res) => {
         console.log(res);
-        
+        func(false);
+
         if (res.status === 200) {
+          reset()
           toast({
             title: "Password Updated",
             description: "Your password was updated successfully.",
@@ -47,6 +54,7 @@ const PasswordForm = () => {
         }
       })
       .catch((err) => {
+        func(false);
         toast({
           variant: "destructive",
           description: err.response.data,
@@ -66,7 +74,7 @@ const PasswordForm = () => {
           <div>
             <Label>Current Password</Label>
             <Input
-            type="password"
+              type="password"
               {...register("currentPass", {
                 required: "Enter your current password",
               })}
@@ -79,7 +87,7 @@ const PasswordForm = () => {
             <Label>New Password</Label>
             <div>
               <Input
-              type="password"
+                type="password"
                 onInput={(event) =>
                   setPassword((event.target as HTMLInputElement).value)
                 }
@@ -99,7 +107,7 @@ const PasswordForm = () => {
             <div>
               <Label>Repeat Password</Label>
               <Input
-              type="password"
+                type="password"
                 {...register("repeatPass", {
                   required: "Repeat the new password",
                   validate: (value) => {
@@ -119,7 +127,9 @@ const PasswordForm = () => {
       </form>
       <div className="flex">
         <p>Forgot your password?</p>
-        <Link href={"/account/reset_password"} className="text-blue-600">Click here</Link>
+        <Link href={"/account/reset_password"} className="text-blue-600">
+          Click here
+        </Link>
       </div>
     </div>
   );

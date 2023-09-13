@@ -9,6 +9,7 @@ import getUserData from "@/hooks/user/getUserData";
 import SignOut from "./components/SignOut";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
+import SecondTab from "./components/SecondTab";
 
 const AccountPage = async () => {
   // const session = useSession();
@@ -93,11 +94,7 @@ const AccountPage = async () => {
           </div>
         </TabsContent>
         <TabsContent value="security">
-          <div className="flex flex-col space-y-2">
-            <InformationForm />
-            <PasswordForm />
-          </div>
-          <SignOut />
+          <SecondTab />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,9 +6,15 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-const InformationForm = () => {
+interface InformationFormProps {
+  func: (x: boolean) => void;
+}
+
+const InformationForm: React.FC<InformationFormProps> = ({func}) => {
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -22,14 +28,18 @@ const InformationForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = form;
 
   const OnFormSubmit: SubmitHandler<FieldValues> = async (data) => {
+    func(true)
     await axios
       .post("/api/user/updateInfo", data)
-      .then((res) => {  
+      .then((res) => {
+        func(false)
         if (res.status === 200) {
+          reset()
           toast({
             title: "Information Updated",
             description: "Your information was updated successfully.",
@@ -38,6 +48,7 @@ const InformationForm = () => {
         }
       })
       .catch((err) => {
+        func(false)
         toast({
           variant: "destructive",
           description: err.response.data,
