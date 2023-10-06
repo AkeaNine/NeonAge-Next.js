@@ -8,7 +8,23 @@ import "swiper/css/pagination";
 import SlidingProductModel from "@/app/(site)/components/product/SlidingProductModel";
 
 interface CarouselProps {
-  products: [];
+  products: [
+    {
+      _type: string;
+      description: [];
+      title: string;
+      colors: [];
+      tags: [];
+      _createdAt: string;
+      _id: string;
+      _rev: string;
+      _updatedAt: string;
+      sku: string;
+      price: number;
+      categories: [];
+      discount: number;
+    }
+  ];
 }
 
 const CarouselBox: React.FC<CarouselProps> = ({ products }) => {
@@ -35,9 +51,9 @@ const CarouselBox: React.FC<CarouselProps> = ({ products }) => {
       grabCursor={true}
       navigation
     >
-      {products.map((prod: [], index: number) => (
-        <SwiperSlide>
-          <SlidingProductModel product={prod} key={index} />
+      {products.map((prod, index) => (
+        <SwiperSlide key={index}>
+          <SlidingProductModel product={prod}/>
         </SwiperSlide>
       ))}
     </Swiper>

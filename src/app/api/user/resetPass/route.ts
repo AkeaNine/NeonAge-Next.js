@@ -90,7 +90,9 @@ async function SendMail(
       to reset your password:
     </p>
     <p style="overflow-wrap: break-word; word-wrap: break-word">
-      ${process.env.NEXTAUTH_URL}/account/reset_password/verification?token=${token}
+      ${
+        process.env.NEXTAUTH_URL
+      }/account/reset_password/verification?token=${token}
     </p>
 
     <p>
@@ -192,6 +194,11 @@ export async function POST(req: Request) {
         }
 
         if (currentTime > expirationTime) {
+          await prisma.passwordResetToken.delete({
+            where: {
+              email: email,
+            },
+          });
           const token = await CreateToken(email);
           console.log("went to 4");
 
@@ -209,6 +216,6 @@ export async function POST(req: Request) {
       return new NextResponse(error, { status: 400 });
     }
   } catch (error: any) {
-    return new NextResponse("Something went wrong2", { status: 400 });
+    return new NextResponse("Something went wrong", { status: 400 });
   }
 }

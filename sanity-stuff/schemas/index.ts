@@ -4,4 +4,5 @@ import tags from "./tags"
 import navbarCategory from "./navbarCategory"
 import productsCategory from "./productsCategory"
 import topSellingImages from "./topSellingImages"
-export const schemaTypes = [product, colors, tags, productsCategory, navbarCategory, topSellingImages]
+import sizes from "./sizes"
+export const schemaTypes = [product, colors, tags, productsCategory, navbarCategory, topSellingImages, sizes]

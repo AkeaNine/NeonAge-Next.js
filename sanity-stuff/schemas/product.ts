@@ -12,24 +12,10 @@ export default {
       description: 'The name of the product',
     },
     {
-      title: 'DP',
-      name: 'dp',
-      type: 'image',
-      // options: {
-      //   hotspot: true // <-- Defaults to false
-      // },
-      fields: [
-        {
-          name: 'caption',
-          type: 'string',
-          title: 'Caption',
-        },
-        {
-          name: 'attribution',
-          type: 'string',
-          title: 'Attribution',
-        }
-      ]
+      name: 'sku',
+      title: 'Stock keeping unit',
+      type: 'string',
+      description: 'SKU of the product',
     },
     {
       name: 'description',
@@ -46,14 +32,14 @@ export default {
       name: 'price',
       title: 'Price',
       type: 'number',
-      description: 'Product price'
+      description: 'Product price',
     },
     {
       name: 'discount',
       title: 'Discount',
       type: 'number',
       initialValue: 0,
-      description: 'Discount in percentage'
+      description: 'Discount in percentage',
     },
     {
       name: 'colors',
@@ -70,8 +56,30 @@ export default {
               to: [{type: 'color'}],
             },
             {
-              name: 'sizes',
-              title: 'Sizes',
+              name: 'dp',
+              title: 'DP',
+              type: 'image',
+              of: [
+                {
+                  type: 'image',
+                },
+              ],
+              description: 'Display image for the product',
+            },
+            {
+              name: 'images',
+              title: 'Images',
+              type: 'array',
+              of: [
+                {
+                  type: 'image',
+                },
+              ],
+              description: 'Multiple images for the product',
+            },
+            {
+              name: 'sfs',
+              title: 'Stock for Size',
               type: 'array',
               of: [
                 {
@@ -80,7 +88,8 @@ export default {
                     {
                       name: 'size',
                       title: 'Size',
-                      type: 'string',
+                      type: 'reference',
+                      to: [{type: 'size'}],
                     },
                     {
                       name: 'stock',
@@ -88,27 +97,25 @@ export default {
                       type: 'number',
                     },
                   ],
+                  preview: {
+                    select: {
+                      title: 'stock', // Display the size field as the title for the objects in the 'sfs' array
+                      media: 'size.image'
+                    },
+                  },
                 },
               ],
             },
           ],
-        },
-      ],
-      description: 'Available colors and sizes with corresponding stock',
-    },
-    {
-      name: 'images',
-      title: 'Images',
-      type: 'array',
-      of: [
-        {
-          type: 'image',
-          options: {
-            hotspot: true,
+          preview: {
+            select: {
+              title: 'color.name', // Display the size field as the title for the objects in the 'sfs' array
+              media: 'dp'
+            },
           },
         },
       ],
-      description: 'Multiple images for the product',
+      description: 'Available colors and sizes with corresponding stock',
     },
     {
       name: 'tags',
@@ -117,7 +124,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{ type: 'tag' }],
+          to: [{type: 'tag'}],
         },
       ],
       description: 'Tags associated with the product',
@@ -129,7 +136,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{ type: 'productscategory' }],
+          to: [{type: 'productscategory'}],
         },
       ],
       description: 'Categories associated with the product',

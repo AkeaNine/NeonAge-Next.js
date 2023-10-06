@@ -11,7 +11,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import ProductImage from "./ProductImage";
 
 interface SlidingProductModelProps {
-  product: any[];
+  product: any;
 }
 
 const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
@@ -26,7 +26,7 @@ const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
           {product.discount > 0 && <p>-{product.discount}%</p>}
         </div>
         {/* @ts-ignore */}
-        <Link href={`/products/${product._id}`}><ProductImage image={product.images[0]} /></Link>
+        <Link href={`/products/${product._id}`}><ProductImage image={product.colors[0].dp} /></Link>
       </div>
       {/* </Link> */}
       <CardHeader className="p-3">

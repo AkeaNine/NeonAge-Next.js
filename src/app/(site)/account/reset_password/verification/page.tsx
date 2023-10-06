@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const page = () => {
+  const [isLoading, setIsLOading] = useState(false)
   const [urlToken, setUrlToken] = useState("") 
   const [pass, setPass] = useState("")
 
@@ -71,6 +72,7 @@ const page = () => {
   }
   
   return(
+    <>
     <div className="w-full flex justify-center">
       <div className="w-full max-w-[500px] py-10 px-4">
         <h1 className="text-xl">Change Password</h1>
@@ -123,6 +125,10 @@ const page = () => {
         </div>
       </div>
     </div>
+    <div className={`loader-container ${isLoading ? 'loader-open' : 'loader-close'} absolute top-0 left-0 h-full w-full flex justify-center items-center`}>
+        <span className="loader"></span>
+      </div>
+    </>
   )
 };
 
