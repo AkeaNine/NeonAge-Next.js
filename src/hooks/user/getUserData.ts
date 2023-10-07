@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
-import prisma from "../../db/client"
-import { redirect } from "next/navigation";
+import prisma from "../../db/client";
 
 export default async function getUserData() {
     const session = await getServerSession()

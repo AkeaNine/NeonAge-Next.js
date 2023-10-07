@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
-import ProductImageSlider from "./ProductImageSlider";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import ProdSizeColPrice from "./ProdSizeColPrice";
+import ProductImageSlider from "./ProductImageSlider";
 
 interface MainProductSectionProps {
   product: {

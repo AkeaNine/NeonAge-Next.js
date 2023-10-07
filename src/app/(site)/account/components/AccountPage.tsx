@@ -1,12 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { signOut, useSession } from "next-auth/react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { MdVerified } from "react-icons/md";
-import InformationForm from "./components/InformationForm";
-import PasswordForm from "./components/PasswordForm";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import getUserData from "@/hooks/user/getUserData";
-import SignOut from "./components/SignOut";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import SecondTab from "./components/SecondTab";
