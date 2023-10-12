@@ -1,7 +1,6 @@
-import React from "react";
-import Navigation from "../MainComponents/Navigation";
-import MainFooter from "../MainComponents/MainFooter";
-import ContentWrapper from "../MainComponents/ContentWrapper";
+import ContentWrapper from "./(site)/MainComponents/ContentWrapper";
+import MainFooter from "./(site)/MainComponents/MainFooter";
+import Navigation from "./(site)/MainComponents/Navigation";
 
 const loading = () => {
   return (

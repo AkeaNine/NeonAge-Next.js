@@ -1,8 +1,17 @@
+import ContentWrapper from "../../MainComponents/ContentWrapper";
+import MainFooter from "../../MainComponents/MainFooter";
+import Navigation from "../../MainComponents/Navigation";
 
 const loading = () => {
   return (
-    <div>loading...</div>
-  )
-}
+    <>
+      <Navigation />
+      <ContentWrapper>
+        <p className="text-center">Loading..</p>
+      </ContentWrapper>
+      <MainFooter />
+    </>
+  );
+};
 
-export default loading
+export default loading;

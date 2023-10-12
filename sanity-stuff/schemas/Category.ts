@@ -1,6 +1,6 @@
 export default {
-    name: 'navbarcategory',
-    title: 'NavBarCategory',
+    name: 'category',
+    title: 'Category',
     type: 'document',
     fields: [
       {

@@ -1,16 +1,24 @@
 import MainProductSection from "./components/MainProductSection";
-import ProductImageSlider from "./components/ProductImageSlider";
 
 interface ProductProps {
   product: {
     price: number;
     sku: string;
     title: string;
-    categories: [];
+    category: [];
     tags: [];
     colors: [
       {
-        dp: [];
+        _key: string,
+        dp: [
+          {
+            _type: string;
+            asset: {
+              _ref: string;
+              _type: string;
+            };
+          }
+        ];
         sfs: [{ size: string; _key: string; stock: number }];
         images: [];
         color: string;
@@ -22,63 +30,69 @@ interface ProductProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const Product: React.FC<ProductProps> = ({ product, searchParams }) => {
+const Product = async ({ product, searchParams }: ProductProps) => {
+  // console.log(product);
+
   const enteredColor = searchParams.color;
   const enteredSize = searchParams.size;
+  const getrColors = (x: any) => {
+    const colors = [];
+    for (const item of product.colors) {
+      colors.push(item.color);
+    }
+    return colors;
+  };
+
+  const colors = getrColors(product) || [];
+
+  const colorGetterFunc = (x: string | string[]) => {
+    for (const item of product.colors) {
+      if (item.color === x) {
+        return item;
+      }
+    }
+  };
 
   const selectedColor = ColorSetter(enteredColor);
-  const selectedSize = SizeSetter(enteredSize, selectedColor);
+  const colorObj = colorGetterFunc(selectedColor) || product.colors[0];
+  const selectedSize = SizeSetter(enteredSize);
 
   function ColorSetter(color: string | string[] | undefined = "") {
-    var state = false;
     if (color === null || color === undefined || color === "") {
       return product.colors[0].color;
     }
     for (const item of product.colors) {
       if (item.color === color) {
-        state = true;
-        break;
+        return color;
       }
     }
-    if (state) {
-      return color;
-    } else {
-      return product.colors[0].color;
-    }
+    return product.colors[0].color;
   }
 
-  function SizeSetter(size: string | string[] | undefined = "", color: string | string[]) {
-    var finalizedSize: string | string[] | undefined = "";
-    const colorGetterFunc = (x : string | string[]) => {
-      for (const item of product.colors) {
-        if (item.color === x) {
-          return item;
+  function SizeSetter(size: string | string[] | undefined = "") {
+    if (size === null || size === undefined || size === "") {
+      return colorObj.sfs[0].size;
+    } else {
+      for (const i of colorObj.sfs) {
+        if (i.size === size) {
+          return size;
         }
       }
-    };
-    const colorObj = colorGetterFunc(color);
-
-    if (colorObj !== undefined) {
-      if (size === null || size === undefined || size === "") {
-        finalizedSize = colorObj.sfs[0].size;
-        return finalizedSize;
-      } else {
-        for (const i of colorObj.sfs) {
-          if (i.size === size) {
-            finalizedSize = size;
-            return finalizedSize;
-          }
-        }
-        finalizedSize = colorObj.sfs[0].size;
-        return finalizedSize;
-      }
+      return colorObj.sfs[0].size;
     }
   }
 
   return (
     <div className="w-full">
       <MainProductSection
-        product={product}
+        // product={product}
+        description={product.description}
+        discount={product.discount}
+        price={product.price}
+        sku={product.sku}
+        title={product.title}
+        colorObj={colorObj}
+        colors={colors}
         selectedColor={selectedColor}
         selectedSize={selectedSize}
       />

@@ -27,7 +27,9 @@ export default function RootLayout({
     <html lang="en" className={lato.className}>
       <body>
         <SessionContext>
-          {children}
+          <div className="w-full min-h-[100vh] flex flex-col justify-between">
+            {children}
+          </div>
           <Toaster />
         </SessionContext>
       </body>

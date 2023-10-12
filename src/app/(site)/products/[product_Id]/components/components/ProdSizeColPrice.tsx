@@ -1,48 +1,67 @@
+import { useEffect, useState } from "react";
+import AddToCartSec from "./AddToCartSec";
+import ColorSizeComp from "./ColorSizeComp";
 
 interface ProdSizeColPriceProps {
-  product: {
-    price: number;
-    sku: string;
-    title: string;
-    categories: [];
-    tags: [];
-    colors: [
-      {
-        dp: [];
-        sfs: [{ size: string; _key: string; stock: number }];
-        images: [];
-        color: string;
-      }
-    ];
-    description: [];
-    discount: number;
-  };
+  title: string;
+  price: number;
+  discount: number;
+  sfs: [
+    {
+      size: string;
+      _key: string;
+      stock: number;
+    }
+  ];
+  sku: string;
+  colors: string[];
   selectedColor: string | string[] | undefined;
   selectedSize: string | string[] | undefined;
 }
 
-const ProdSizeColPrice: React.FC<ProdSizeColPriceProps> = ({
-  product,
-  // selectedColor,
-  // selectedSize,
-}) => {
+const ProdSizeColPrice = ({
+  discount,
+  price,
+  title,
+  colors,
+  sfs,
+  sku,
+  selectedColor,
+  selectedSize,
+}: ProdSizeColPriceProps) => {
   // console.log(selectedColor);
   // console.log(selectedSize);
 
-  // const router = useRouter();
-  // useEffect(() => {
-  //   product.colors.map((item, index) => {
-  //     if (item.hasOwnProperty(selectedColor)) {
-  //       router.replace(`?color=${selectedColor}&size=${selectedSize}`);
-  //     } else {
-  //       router.replace(
-  //         `?color=${product.colors[0].color}&size=${product.colors[0].sfs[0].size}`
-  //       );
-  //     }
-  //   });
-  // }, [selectedColor, selectedSize]);
-
-  return <div>ProdSizeColPrice</div>;
+  return (
+    <div className="w-full">
+      <div className="my-1">
+        <h3 className="text-xl font-semibold">{title}</h3>
+      </div>
+      {discount > 0 ? (
+        <div className="my-1">
+          <div className="flex items-center">
+            <p className="text-red-500 line-through text-sm">Price: {price}৳</p>
+            <span className="text-sm">&nbsp;-{discount}%</span>
+          </div>
+          <p className=" text-base font-semibold">
+            Price:&nbsp;
+            <span className="font-bold text-lg">{price * (1 - discount / 100)}৳</span>
+          </p>
+        </div>
+      ) : (
+        <div>
+          <p className=" text-lg">
+            Price:&nbsp;<span className="font-bold">{price}৳</span>
+          </p>
+        </div>
+      )}
+      <div>
+        <p className="font-semibold">SKU:&nbsp;<span className=" font-normal">{sku}</span></p>
+      </div>
+      <ColorSizeComp color={selectedColor} colors={colors} size={selectedSize} sfs={sfs} />
+        <AddToCartSec sfs={sfs} size={selectedSize} />
+    </div>
+  );
 };
 
 export default ProdSizeColPrice;

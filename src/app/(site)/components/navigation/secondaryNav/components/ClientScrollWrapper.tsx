@@ -14,10 +14,32 @@ const ClientScrollWrapper: React.FC<ClientScrollWrapperProps> = ({
   useEffect(() => {
     const scrollableElement = scrollableRef.current;
 
+    // Check if the element has reached its scroll limit on the X-axis
+
     const handleWheel = (event: WheelEvent) => {
       if (scrollableElement) {
+        let hasReachedScrollLimitX =
+          scrollableElement.scrollLeft >=
+          scrollableElement.scrollWidth - scrollableElement.clientWidth;
+          const scrollLeft = scrollableElement.scrollLeft;
+        if (hasReachedScrollLimitX) {
+          if (event.deltaY < 0) {
+            // Calculate the current horizontal scroll position
+
+            // Adjust the horizontal scroll position based on the wheel delta
+            scrollableElement.scrollTo({
+              left: scrollLeft - event.deltaY,
+              behavior: "smooth", // You can use 'auto' or 'smooth' here
+            });
+
+            // Prevent default scroll behavior
+            event.preventDefault();
+          } else {
+            return;
+          }
+        }
         // Calculate the current horizontal scroll position
-        const scrollLeft = scrollableElement.scrollLeft;
+        // const scrollLeft = scrollableElement.scrollLeft;
 
         // Adjust the horizontal scroll position based on the wheel delta
         scrollableElement.scrollTo({

@@ -124,19 +124,19 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'tag'}],
+          to: [{type: 'productstags'}],
         },
       ],
       description: 'Tags associated with the product',
     },
     {
-      name: 'categories',
+      name: 'category',
       title: 'Categories',
       type: 'array',
       of: [
         {
           type: 'reference',
-          to: [{type: 'productscategory'}],
+          to: [{type: 'category'}],
         },
       ],
       description: 'Categories associated with the product',

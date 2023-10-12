@@ -6,7 +6,7 @@ interface ProductImageProps {
   image: any;
 }
 
-const ProductImage: React.FC<ProductImageProps> = ({ image }) => {
+const ProductImage = ({ image }: ProductImageProps) => {
   const imageProps = useNextSanityImage(client, image);
 
   return (

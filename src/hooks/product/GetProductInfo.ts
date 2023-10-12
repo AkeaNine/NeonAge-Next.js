@@ -5,7 +5,7 @@ async function GettagsName({ product }: any) {
   if (product && product.tags) {
     for (const tagRef of product.tags) {
       const ref = tagRef._ref;
-      const tagQuery = `*[_type == "tag" && _id == $ref]{
+      const tagQuery = `*[_type == "productstags" && _id == $ref]{
         name
       }`;
 
@@ -25,17 +25,17 @@ async function GettagsName({ product }: any) {
 
 async function GetcategoriesName({ product }: any) {
   const categories = [];
-  if (product && product.categories) {
-    for (const catRef of product.categories) {
+  if (product && product.category) {
+    for (const catRef of product.category) {
       const ref = catRef._ref;
-      const catQuery = `*[_type == "productscategory" && _id == $ref]{
+      const catQuery = `*[_type == "category" && _id == $ref]{
         name
       }`;
 
-      const tag = (await client.fetch(catQuery, { ref }))[0];
+      const cat = (await client.fetch(catQuery, { ref }))[0];
 
-      if (tag) {
-        categories.push(tag.name);
+      if (cat) {
+        categories.push(cat.name);
       } else {
         return;
       }
@@ -48,26 +48,34 @@ async function GetcategoriesName({ product }: any) {
 
 async function GetcolorSizeNames({ colors }: any) {
   const NewColors = [];
-
+  
   if (colors) {
     for (const i of colors) {
+      console.log(i);
+      
+      const NewSFS = []
       const colorRef = i.color._ref;
       const colorQuery = `*[_type == "color" && _id == $colorRef]{
         name
       }`;
       const color = (await client.fetch(colorQuery, { colorRef }))[0];
       if (i.sfs) {
-        for (const s of i.sfs) {
-          const sizeRef = s.size._ref
+        const sfs = i.sfs.filter((s: any) => s.stock > 0);
+        for (const s of sfs) {
+          const sizeRef = s.size._ref;
           const sizeQuery = `*[_type == "size" && _id == $sizeRef]{
-            name
-          }`;
-          const size = (await client.fetch(sizeQuery, { sizeRef }))[0]
-          s["size"] = size.name
+              name
+            }`;
+          const size = (await client.fetch(sizeQuery, { sizeRef }))[0];
+          s["size"] = size.name;
         }
+        NewSFS.push(sfs)
       }
 
       i["color"] = color.name;
+      i["sfs"] = NewSFS[0];
+      
+      // i["sfs"] = NewSFS;
       if (color) {
         NewColors.push(i);
       } else {
@@ -83,7 +91,7 @@ export default async function GetProductInfo(id: string) {
     const sanitizedId = id.replace(/[^a-zA-Z0-9_-]/g, "");
 
     const query = `*[_type == "product" && _id == $sanitizedId]{
-      categories,
+      category,
       tags,
       colors,
       description,
@@ -101,8 +109,8 @@ export default async function GetProductInfo(id: string) {
       colors: productData.colors,
     });
 
-    productData["categories"] = CategoriesName;
-    productData["tags"] = CategoriesName;
+    productData["category"] = CategoriesName;
+    productData["tags"] = TagNames;
     productData["colors"] = ColorsWithNames;
 
     return productData;
