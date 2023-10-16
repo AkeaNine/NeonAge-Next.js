@@ -52,7 +52,8 @@ const CardBox = () => {
       email: data.email,
       password: data.password,
     };
-    await axios
+    try {
+      await axios
       .post("/api/signup", data)
       .then((res) => {
         if (res.status === 200) {
@@ -67,6 +68,13 @@ const CardBox = () => {
           description: err.response.data,
         });
       });
+    } catch (error: any) {
+      setIsLOading(false);
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+        });
+    }
   };
 
   const checkTheBox = () => {

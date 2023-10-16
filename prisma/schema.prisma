@@ -100,6 +100,7 @@ model User {
   password         String
   accounts         Account[]
   sessions         Session[]
+  cart             Json?
   orders           Order[]           @relation("CustomerOrders")
   returns          UserReturn[]      @relation("CustomerReturns")
   comments         Comment[]         @relation("CustomerComments")

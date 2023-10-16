@@ -51,8 +51,6 @@ async function GetcolorSizeNames({ colors }: any) {
   
   if (colors) {
     for (const i of colors) {
-      console.log(i);
-      
       const NewSFS = []
       const colorRef = i.color._ref;
       const colorQuery = `*[_type == "color" && _id == $colorRef]{
@@ -99,6 +97,7 @@ export default async function GetProductInfo(id: string) {
       price,
       sku,
       title,
+      _id,
     }`;
 
     const productData = (await client.fetch(query, { sanitizedId }))[0];

@@ -15,7 +15,7 @@ const ProductSLiderFallback = ({
     setPrimaryImage(index);
   }
   return (
-    <div className="w-full grid grid-rows-4 grid-cols-6 h-[500px] lg:h-[600px]">
+    <div className="w-full grid grid-rows-4 grid-cols-6 h-[500px] lg:h-[700px]">
       <div className="row-span-3 col-start-2 col-end-6 w-full flex justify-center mb-2 cursor-pointer">
         {/* <PrimaryImage image={primaryImage} /> */}
         <div className="h-full w-full flex justify-center items-center">

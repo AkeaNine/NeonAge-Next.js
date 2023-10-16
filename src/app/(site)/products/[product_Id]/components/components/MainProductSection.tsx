@@ -10,6 +10,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import Image from "next/image";
 
 interface MainProductSectionProps {
+  id: string;
   description: [];
   discount: number;
   price: number;
@@ -41,6 +42,7 @@ interface MainProductSectionProps {
 }
 
 const MainProductSection = ({
+  id,
   description,
   discount,
   colorObj,
@@ -66,8 +68,6 @@ const MainProductSection = ({
     SecondImages.push(<Image src={urlFor(i).url()} alt={""} />)
   });
 
-  console.log(SecondImages);
-
   return (
     <div className="w-full h-fit md:flex">
       {/* main product */}
@@ -76,13 +76,14 @@ const MainProductSection = ({
         <Suspense
           fallback={<ProductSLiderFallback SecondImages={SecondImages} />}
         >
-          <ProductImageSlider SecondImages={SecondImages} />
+          <ProductImageSlider SecondImages={SecondImages} selectedColor={selectedColor} />
         </Suspense>
       </div>
       <div className="w-full md:w-2/4">
         <div className="py-4 px-8 w-full">
           {/* name price color size */}
           <ProdSizeColPrice
+          id={id}
             title={title}
             discount={discount}
             price={price}

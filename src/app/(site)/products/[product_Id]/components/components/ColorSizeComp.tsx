@@ -34,9 +34,9 @@ const ColorSizeComp = ({ color, colors, size, sfs }: ColorSizeCompProps) => {
     <div className="w-full my-2">
       <div className="w-full mb-2">
         <p className="text-sm font-semibold mb-1">Colors:&nbsp;</p>
-        <div className="flex justify-start space-x-2">
+        <div className="flex justify-start flex-wrap">
         {colors.map((i, index) => (
-          <div className="p-1 bg-slate-300" key={index}>
+          <div className="p-1 m-1 bg-slate-300" key={index}>
             <div
             className={`py-1 px-2 cursor-pointer border border-black ${
               color === i ? "bg-gray-700 text-white" : "bg-slate-200"
@@ -51,9 +51,9 @@ const ColorSizeComp = ({ color, colors, size, sfs }: ColorSizeCompProps) => {
       </div>
       <div className="w-full">
         <p className="text-sm font-semibold mb-1">Sizes:&nbsp;</p>
-        <div className=" flex items-center space-x-2">
+        <div className=" flex items-center flex-wrap">
         {sfs.map((i, index) => (
-           <div className="p-1 bg-slate-300" key={index}>
+           <div className="p-1 m-1 bg-slate-300" key={index}>
              <div
             className={`py-1 px-2 cursor-pointer border border-black ${
               size === i.size ? "bg-gray-700 text-white" : "bg-slate-200"

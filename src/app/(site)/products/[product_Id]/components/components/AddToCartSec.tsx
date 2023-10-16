@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import AddToCardButton from "./AddToCardButton";
+import AddToCardQty from "./AddToCardQty";
 
 interface AddToCartSecProps {
+  id: string;
   sfs: [
     {
       size: string;
@@ -15,7 +15,7 @@ interface AddToCartSecProps {
   size: string | string[] | undefined;
 }
 
-const AddToCartSec = ({ sfs, size }: AddToCartSecProps) => {
+const AddToCartSec = ({ sfs, size, id }: AddToCartSecProps) => {
   const { toast } = useToast();
   const [qty, setQty] = useState(1);
 
@@ -51,36 +51,11 @@ const AddToCartSec = ({ sfs, size }: AddToCartSecProps) => {
       }
     }
   }
+
   return (
     <div>
-      <div>
-        <p>Quantity:</p>
-        <div className="my-2 flex max-w-[200px]">
-          <Button
-            className="bg-white text-black border border-black hover:bg-slate-200 rounded-none"
-            onClick={() => {
-              QtyClickHandler("decrease");
-            }}
-          >
-            <AiOutlinePlus />
-          </Button>
-          <Input
-            className="border border-black border-l-0 border-r-0 rounded-none text-center text-base"
-            value={qty}
-          />
-          <Button
-            className="bg-white text-black border border-black hover:bg-slate-200 rounded-none"
-            onClick={() => {
-              QtyClickHandler("increase");
-            }}
-          >
-            <AiOutlineMinus />
-          </Button>
-        </div>
-        <div className="my-2 max-w-[400px]">
-          <Button className="w-full h-12 text-base">ADD TO CART</Button>
-        </div>
-      </div>
+      <AddToCardQty qty={qty} seQtyFunc={QtyClickHandler} />
+      <AddToCardButton id={id} qty={qty} />
     </div>
   );
 };

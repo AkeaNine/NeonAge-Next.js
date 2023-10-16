@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const FeaturedProducts = async () => {
   const products = await getFeaturedProducts();
-  console.log(products);
+  // console.log(products);
   
 
   return (

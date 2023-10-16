@@ -1,11 +1,9 @@
-import ThemeContext from "@/context/ThemeContext";
-import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import CartProvider from "@/context/CartProvider";
+import SessionContext from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import SessionContext from "@/context/SessionContext";
-import Navigation from "./(site)/MainComponents/Navigation";
-import MainFooter from "./(site)/MainComponents/MainFooter";
-import { Toaster } from "@/components/ui/toaster";
+import "./globals.css";
 
 const lato = Inter({
   subsets: ["latin"],
@@ -27,10 +25,12 @@ export default function RootLayout({
     <html lang="en" className={lato.className}>
       <body>
         <SessionContext>
-          <div className="w-full min-h-[100vh] flex flex-col justify-between">
-            {children}
-          </div>
-          <Toaster />
+          <CartProvider>
+            <div className="w-full min-h-[100vh] flex flex-col justify-between">
+              {children}
+            </div>
+            <Toaster />
+          </CartProvider>
         </SessionContext>
       </body>
     </html>

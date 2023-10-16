@@ -2,6 +2,7 @@ import MainProductSection from "./components/MainProductSection";
 
 interface ProductProps {
   product: {
+    _id: string;
     price: number;
     sku: string;
     title: string;
@@ -86,6 +87,7 @@ const Product = async ({ product, searchParams }: ProductProps) => {
     <div className="w-full">
       <MainProductSection
         // product={product}
+        id={product._id}
         description={product.description}
         discount={product.discount}
         price={product.price}

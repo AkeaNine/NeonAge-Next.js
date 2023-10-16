@@ -3,6 +3,7 @@ import AddToCartSec from "./AddToCartSec";
 import ColorSizeComp from "./ColorSizeComp";
 
 interface ProdSizeColPriceProps {
+  id: string;
   title: string;
   price: number;
   discount: number;
@@ -20,6 +21,7 @@ interface ProdSizeColPriceProps {
 }
 
 const ProdSizeColPrice = ({
+  id,
   discount,
   price,
   title,
@@ -59,7 +61,7 @@ const ProdSizeColPrice = ({
         <p className="font-semibold">SKU:&nbsp;<span className=" font-normal">{sku}</span></p>
       </div>
       <ColorSizeComp color={selectedColor} colors={colors} size={selectedSize} sfs={sfs} />
-        <AddToCartSec sfs={sfs} size={selectedSize} />
+        <AddToCartSec sfs={sfs} size={selectedSize} id={id} />
     </div>
   );
 };
