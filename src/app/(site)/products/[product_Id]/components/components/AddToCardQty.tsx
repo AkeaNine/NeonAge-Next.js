@@ -26,7 +26,7 @@ const AddToCardQty = ({ qty, seQtyFunc }: AddToCardQtyProps) => {
             seQtyFunc("decrease");
           }}
         >
-          <AiOutlinePlus />
+          <AiOutlineMinus />
         </Button>
         <Input
           className="border border-black border-l-0 border-r-0 rounded-none text-center text-base"
@@ -39,7 +39,7 @@ const AddToCardQty = ({ qty, seQtyFunc }: AddToCardQtyProps) => {
             seQtyFunc("increase");
           }}
         >
-          <AiOutlineMinus />
+          <AiOutlinePlus />
         </Button>
       </div>
     </div>

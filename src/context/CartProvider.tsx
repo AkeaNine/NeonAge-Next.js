@@ -10,35 +10,30 @@ interface CartProviderProps {
 const CartProvider = ({ children }: CartProviderProps) => {
   const session = useSession();
 
-  const [cart, setCart] = useState<any>([]);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  useEffect(() => {
-    async function getCart() {
-      if (session.status === "authenticated") {
-        try {
-          const userCart: any = await (
-            await axios.get("/api/user/userCart")
-          ).data.cart;
-          console.log(userCart);
-          if (userCart !== null || userCart !== undefined) {
-            setCart(userCart);
-          } else {
-            setCart([])
-          }
-        } catch (error: any) {
-          console.log("no cart");
+  async function getCart() {
+    if (session.status === "authenticated") {
+      try {
+        const userCart: any = (await axios.get("/api/user/userCart")).data.cart;
+        console.log(userCart);
+        if (userCart !== null && userCart !== undefined) {
+          localStorage.setItem("cart", userCart);
+        } else {
+          localStorage.setItem("cart", JSON.stringify([]));
         }
+      } catch (error: any) {
+        console.log("no cart");
+      }
+    } else {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        return;
       } else {
-        const storedCart = localStorage.getItem("cart");
-        const parsedCart = storedCart ? JSON.parse(storedCart) : [];
-        setCart(parsedCart);
+        localStorage.setItem("cart", JSON.stringify([]));
       }
     }
+  }
 
+  useEffect(() => {
     getCart();
   }, [session, session.status]);
 

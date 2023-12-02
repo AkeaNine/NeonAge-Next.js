@@ -13,9 +13,10 @@ interface AddToCartSecProps {
     }
   ];
   size: string | string[] | undefined;
+  color: string | string[] | undefined;
 }
 
-const AddToCartSec = ({ sfs, size, id }: AddToCartSecProps) => {
+const AddToCartSec = ({ sfs, size, color, id }: AddToCartSecProps) => {
   const { toast } = useToast();
   const [qty, setQty] = useState(1);
 
@@ -27,7 +28,7 @@ const AddToCartSec = ({ sfs, size, id }: AddToCartSecProps) => {
       }
     });
     setQty(1);
-  }, [size]);
+  }, [size, color]);
 
   function QtyClickHandler(term: string) {
     if (term === "decrease") {
@@ -55,7 +56,7 @@ const AddToCartSec = ({ sfs, size, id }: AddToCartSecProps) => {
   return (
     <div>
       <AddToCardQty qty={qty} seQtyFunc={QtyClickHandler} />
-      <AddToCardButton id={id} qty={qty} />
+      <AddToCardButton id={id} qty={qty} size={size} color={color} />
     </div>
   );
 };

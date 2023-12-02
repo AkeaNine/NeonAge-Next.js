@@ -1,47 +1,86 @@
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface AddToCardButtonProps {
   id: string;
   qty: number;
+  size: string | string[] | undefined;
+  color: string | string[] | undefined;
 }
 
-const AddToCardButton = ({ id, qty }: AddToCardButtonProps) => {
+const AddToCardButton = ({ id, qty, size, color }: AddToCardButtonProps) => {
+  const [isWorking, setIsWorking] = useState(false);
   const session = useSession();
-  const [initCart, setInitCart] = useState<any>();
-  const [cart, setCart] = useState<any>([]);
+  const { toast } = useToast();
+  const router = useRouter()
 
-  useEffect(() => {
-    const localCart = localStorage.getItem("cart");
-    if (localCart) {
-      try {
-        const parsedCart = JSON.parse(localCart);
-        setInitCart(parsedCart);
-      } catch (error: any) {
-        setInitCart([]);
-      }
+  async function updateDBCart(cart: any) {
+    try {
+      await axios.post("/api/user/updateCart", cart).then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("cart", JSON.stringify(cart));
+          toast({
+            variant: "default",
+            description: "Cart updated sucessfully",
+          });
+          setIsWorking(false);
+        }
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        description:
+          "Something went wrong. PLease refresh the page and try again",
+      });
+      setIsWorking(false);
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+  }
 
   async function HandleButtonClick() {
-    const prodToAdd = { id: id, qty: qty };
-    const existInCart = initCart.find((item: any) => item.id === prodToAdd.id);
-    if (existInCart) {
+    setIsWorking(true);
+    const prodToAdd = { id: id, qty: qty, color: color, size: size };
+    const initCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const existingProd = initCart.find(
+      (item: any) =>
+        item.id === prodToAdd.id &&
+        item.color === prodToAdd.color &&
+        item.size === prodToAdd.size
+    );
+    console.log(existingProd);
+
+    if (existingProd) {
       const updatedCart = initCart.map((item: any) => {
-        if (item.id === prodToAdd.id) {
-          return { id: item.id, qty: item.qty + prodToAdd.qty };
+        if (item === existingProd) {
+          return prodToAdd;
         }
         return item;
       });
-      setCart(updatedCart);
+      if (session.status === "authenticated") {
+        updateDBCart(updatedCart);
+      } else {
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        toast({
+          variant: "default",
+          description: "Cart updated sucessfully",
+        });
+        setIsWorking(false);
+      }
     } else {
-      const updatedCart = [...cart, prodToAdd];
-      setCart(updatedCart);
+      const updatedCart = [...initCart, prodToAdd];
+      if (session.status === "authenticated") {
+        updateDBCart(updatedCart);
+      } else {
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        toast({
+          variant: "default",
+          description: "Cart updated sucessfully",
+        });
+        setIsWorking(false);
+      }
     }
   }
   return (
@@ -51,6 +90,7 @@ const AddToCardButton = ({ id, qty }: AddToCardButtonProps) => {
         onClick={() => {
           HandleButtonClick();
         }}
+        disabled={isWorking}
       >
         ADD TO CART
       </Button>
@@ -59,14 +99,3 @@ const AddToCardButton = ({ id, qty }: AddToCardButtonProps) => {
 };
 
 export default AddToCardButton;
-
-// if (session.status === "authenticated") {
-//   try {
-//     await axios.post("api/user/updateCart", cart).then(() => {
-
-//     })
-//   } catch (error: any) {
-//     console.log("Something went wrong");
-
-//   }
-// }

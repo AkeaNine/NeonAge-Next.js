@@ -61,7 +61,7 @@ const ProdSizeColPrice = ({
         <p className="font-semibold">SKU:&nbsp;<span className=" font-normal">{sku}</span></p>
       </div>
       <ColorSizeComp color={selectedColor} colors={colors} size={selectedSize} sfs={sfs} />
-        <AddToCartSec sfs={sfs} size={selectedSize} id={id} />
+        <AddToCartSec sfs={sfs} size={selectedSize} color={selectedColor} id={id} />
     </div>
   );
 };
