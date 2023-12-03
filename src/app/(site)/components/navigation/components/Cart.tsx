@@ -1,33 +1,18 @@
-"use client";
-import { useEffect, useState } from "react";
-import CardSheet from "./CardSheet";
+import { GetCartData } from "@/hooks/user/getCartData";
+// import CardSheet from "./CardSheet";
+import dynamic from 'next/dynamic'
 
-function Cart() {
-  const [forceUpdate, setForceUpdate] = useState(false);
-  const [cart, setCart] = useState([]);
+const Cart = async () => {
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const storedCart = localStorage.getItem("cart");
-      setCart(storedCart ? JSON.parse(storedCart) : []);
-      setForceUpdate((prevState) => !prevState);
-    };
+  const cart = await GetCartData();
 
-    handleStorageChange();
+  const NoSSR = dynamic(() => import('./CardSheet'), { ssr: false })
 
-    // Listen for changes to localStorage
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      // Remove the event listener when the component unmounts
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []); // The empty dependency array ensures the effect runs only once
-
+  
   return (
     <div>
       <div className="relative">
-        <CardSheet cart={cart} />
+        <NoSSR cart={cart} />
       </div>
     </div>
   );

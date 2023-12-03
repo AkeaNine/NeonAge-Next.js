@@ -111,7 +111,6 @@ export default async function GetProductInfo(id: string) {
     productData["category"] = CategoriesName;
     productData["tags"] = TagNames;
     productData["colors"] = ColorsWithNames;
-    console.log(productData["description"]);
     
 
     return productData;

@@ -1,3 +1,4 @@
+"use client";
 import {
   Sheet,
   SheetClose,
@@ -9,17 +10,36 @@ import {
 import { BiSolidShoppingBag } from "react-icons/bi";
 import { IoCloseSharp } from "react-icons/io5";
 import CartProducts from "./CartProducts";
+import { useDispatch, useSelector } from "react-redux";
+import { Suspense, useEffect, useState } from "react";
+import { hideLoading } from "@/app/redux/slices/cart";
+import { Prisma } from "@prisma/client";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface CardSheetProps {
-  cart: never[]
+  cart: string;
 }
 
-const CardSheet = ({cart}: CardSheetProps) => {
+const CardSheet = ({ cart }: CardSheetProps) => {
+  const dispatch = useDispatch();
+  const { loading, cartItems } = useSelector((state: any) => state.cart);
+  // const cartToUse = JSON.parse(cartItems)
+  function setCart() {
+    Cookies.set("cart", cart);
+  }
+  setCart();
+  useEffect(() => {
+    dispatch(hideLoading());
+  }, [dispatch]);
+
+  console.log(cartItems);
 
   return (
     <>
       <div className="leading-none absolute right-1 bottom-4 bg-red-500 rounded-full pointer-events-none">
-        <span className="text-md text-white">{cart.length}</span>
+        <span className="text-md text-white">{cartItems.length}</span>
       </div>
       <div>
         <Sheet>
@@ -39,11 +59,17 @@ const CardSheet = ({cart}: CardSheetProps) => {
                 </SheetClose>
               </div>
             </SheetHeader>
-            <div>
+            {loading ? (
+              <div>Loading Cart</div>
+            ) : (
               <div>
-                <CartProducts cart={cart} />
+                <section>
+                  <CartProducts cart={cartItems} />
+                </section>
+                <section>{/* cart total */}</section>
+                <section>{/* checkout button */}</section>
               </div>
-            </div>
+            )}
           </SheetContent>
         </Sheet>
       </div>

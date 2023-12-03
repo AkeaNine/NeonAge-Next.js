@@ -4,6 +4,7 @@ import SessionContext from "@/context/SessionContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "@/context/StoreProviders";
 
 const lato = Inter({
   subsets: ["latin"],
@@ -25,12 +26,12 @@ export default function RootLayout({
     <html lang="en" className={lato.className}>
       <body>
         <SessionContext>
-          <CartProvider>
+          <StoreProvider>
             <div className="w-full min-h-[100vh] flex flex-col justify-between">
               {children}
             </div>
             <Toaster />
-          </CartProvider>
+          </StoreProvider>
         </SessionContext>
       </body>
     </html>
