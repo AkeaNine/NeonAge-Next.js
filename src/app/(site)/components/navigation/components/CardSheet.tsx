@@ -17,20 +17,28 @@ import { Prisma } from "@prisma/client";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useSession } from "next-auth/react";
 
-interface CardSheetProps {
-  cart: string;
-}
+// interface CardSheetProps {
+//   cart: string;
+// }
 
-const CardSheet = ({ cart }: CardSheetProps) => {
+const CardSheet = () => {
   const dispatch = useDispatch();
   const { loading, cartItems } = useSelector((state: any) => state.cart);
   // const cartToUse = JSON.parse(cartItems)
-  function setCart() {
+
+  const session = useSession();
+
+  async function setCart() {
+    const res = await axios.get("/api/user/getCartData");
+    const cart = res.data;
     Cookies.set("cart", cart);
   }
-  setCart();
   useEffect(() => {
+    if (session.status === "authenticated") {
+      setCart();
+    }
     dispatch(hideLoading());
   }, [dispatch]);
 
@@ -50,7 +58,7 @@ const CardSheet = ({ cart }: CardSheetProps) => {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center border-b pb-4">
                 <SheetTitle>Your Cart</SheetTitle>
                 <SheetClose>
                   <div className="border border-dashed">

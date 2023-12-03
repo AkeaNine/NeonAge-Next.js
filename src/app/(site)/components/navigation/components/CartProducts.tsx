@@ -1,17 +1,18 @@
+import Link from "next/link";
+import CartProductModel from "./CartProductModel";
+
 interface CartProductsProps {
   cart: never[];
 }
 
 const CartProducts = ({ cart }: CartProductsProps) => {
+
   return (
     <>
       {cart.length > 0 ? (
         <>
           {cart.map((item, index) => (
-            <div key={index}>
-              <div>{item.color}</div>
-              <div>{item.qty}</div>
-            </div>
+            <CartProductModel product={item} index={index}/>
           ))}
         </>
       ) : (

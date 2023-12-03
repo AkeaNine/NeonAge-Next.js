@@ -9,6 +9,7 @@ import Link from "next/link";
 import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import ProductImage from "./ProductImage";
+import SlidingPoductCartBTN from "./SlidingPoductCartBTN";
 
 interface SlidingProductModelProps {
   product: any;
@@ -60,11 +61,7 @@ const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
       </CardContent>
       <CardFooter className="p-3 pt-0">
         <div className="w-full flex items-center">
-          <button className="bg-black text-white dark:bg-white dark:text-black px-2 py-2 rounded-md flex-1 flex justify-center items-center">
-            <p className="flex-shrink overflow-hidden whitespace-nowrap uppercase text-xs md:text-sm">
-              add to cart
-            </p>
-          </button>
+          <SlidingPoductCartBTN id={product._id} color={product.colors[0].color} size={product.colors[0].sfs[0].size} title={product.title}/>
           <button className="ml-2 border border-gray-500 rounded-sm p-1">
             <AiOutlineHeart size={22} />
           </button>

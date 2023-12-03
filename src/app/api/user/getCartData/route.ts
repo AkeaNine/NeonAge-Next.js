@@ -1,24 +1,24 @@
 import { getServerSession } from "next-auth";
 import prisma from "../../../../db/client";
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-
-export default async function GET() {
-    const session = await getServerSession();
-    try {
-        if (session?.user?.email) {
-            const user = await prisma.user.findUnique({
-                where: {
-                    email: session.user.email,
-                },
-            });
-            return user?.cart;
-        } else {
-          const cookieStore = cookies()
-          const cart = cookieStore.get("cart")
-          return cart
+export async function GET(req: NextRequest) {
+  const session = await getServerSession();
+  try {
+    if (session?.user?.email) {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: session.user.email,
+          },
+        });
+        if (!user) {
+          return;
+        }
+        console.log("working");
+        return new NextResponse(JSON.stringify(user.cart), {status: 200});
       }
-    } catch (error: any) {
-      console.log("something went wrong");
-    }
+  } catch (error: any) {
+    return new NextResponse("something went wrong", {status: 500})
+  }
 }

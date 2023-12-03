@@ -12,7 +12,7 @@ const Cart = async () => {
   return (
     <div>
       <div className="relative">
-        <NoSSR cart={cart} />
+        <NoSSR/>
       </div>
     </div>
   );

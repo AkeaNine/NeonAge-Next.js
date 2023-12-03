@@ -4,7 +4,7 @@ const formattedDate = currentDate.toISOString().split('T')[0];
 const client = createClient({
   projectId: "xk3ins0n",
   dataset: "production",
-  apiVersion: formattedDate,
+  apiVersion: "2023-12-03",
   useCdn: false,
 });
 

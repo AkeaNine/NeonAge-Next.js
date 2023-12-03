@@ -5,6 +5,7 @@ import AddToCardQty from "./AddToCardQty";
 
 interface AddToCartSecProps {
   id: string;
+  title: string;
   sfs: [
     {
       size: string;
@@ -16,7 +17,7 @@ interface AddToCartSecProps {
   color: string | string[] | undefined;
 }
 
-const AddToCartSec = ({ sfs, size, color, id }: AddToCartSecProps) => {
+const AddToCartSec = ({ sfs, size, color, id, title}: AddToCartSecProps) => {
   const { toast } = useToast();
   const [qty, setQty] = useState(1);
 
@@ -56,7 +57,7 @@ const AddToCartSec = ({ sfs, size, color, id }: AddToCartSecProps) => {
   return (
     <div>
       <AddToCardQty qty={qty} seQtyFunc={QtyClickHandler} />
-      <AddToCardButton id={id} qty={qty} size={size} color={color} />
+      <AddToCardButton id={id} qty={qty} size={size} color={color} title={title} />
     </div>
   );
 };

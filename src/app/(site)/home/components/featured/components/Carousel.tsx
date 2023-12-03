@@ -28,6 +28,7 @@ interface CarouselProps {
 }
 
 const CarouselBox: React.FC<CarouselProps> = ({ products }) => {
+  
   return (
     <Swiper
       breakpoints={{

@@ -119,7 +119,7 @@ const MainProductSection = ({
           </Accordion>
           <Link className="w-full border-b py-4 flex items-center justify-between hover:underline cursor-pointer" href={"#comments"}>
             <p className="font-medium text-base">Comments</p>
-            <svg
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -132,7 +132,7 @@ const MainProductSection = ({
               className="h-4 w-4 shrink-0 transition-transform duration-200 transform rotate-[-90deg]"
             >
               <path d="m6 9 6 6 6-6"></path>
-            </svg>
+            </svg> */}
           </Link>
           <Link className="w-full border-b py-4 flex items-center justify-between hover:underline cursor-pointer" href={""}>
             <p className="font-medium text-base">Reviews</p>

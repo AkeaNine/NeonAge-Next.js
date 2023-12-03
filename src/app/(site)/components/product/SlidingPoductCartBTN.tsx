@@ -1,39 +1,36 @@
+"use client";
+
 import { adCartItem } from "@/app/redux/slices/cart";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-interface AddToCardButtonProps {
-  id: string;
-  title: string;
-  qty: number;
-  size: string | string[] | undefined;
-  color: string | string[] | undefined;
+interface SlidingPoductCartBTNProps {
+  id: any;
+  color: any;
+  size: any;
+  title: any
 }
 
-const AddToCardButton = ({
+const SlidingPoductCartBTN = ({
   id,
-  qty,
-  size,
   color,
-  title,
-}: AddToCardButtonProps) => {
+  size,
+  title
+}: SlidingPoductCartBTNProps) => {
   const [isWorking, setIsWorking] = useState(false);
-  const session = useSession();
+
   const dispatch = useDispatch();
+
+  const session = useSession();
   const { toast } = useToast();
+
+  console.log(id, color, size);
 
   async function HandleButtonClick() {
     setIsWorking(true);
-    const prodToAdd = {
-      id: id,
-      qty: qty,
-      color: color,
-      size: size,
-      title: title,
-    };
+    const prodToAdd = { id: id, qty: 1, color: color, size: size, title: title };
     if (session.status === "authenticated") {
       try {
         dispatch(adCartItem({ prodToAdd, authenticated: true }));
@@ -66,19 +63,18 @@ const AddToCardButton = ({
       }
     }
   }
+
   return (
-    <div className="my-2 max-w-[400px]">
-      <Button
-        className="w-full h-12 text-base"
-        onClick={() => {
-          HandleButtonClick();
-        }}
-        disabled={isWorking}
-      >
-        ADD TO CART
-      </Button>
-    </div>
+    <button
+      className="bg-black text-white dark:bg-white dark:text-black px-2 py-2 rounded-md flex-1 flex justify-center items-center"
+      onClick={() => HandleButtonClick()}
+      disabled={isWorking}
+    >
+      <p className="flex-shrink overflow-hidden whitespace-nowrap uppercase text-xs md:text-sm">
+        add to cart
+      </p>
+    </button>
   );
 };
 
-export default AddToCardButton;
+export default SlidingPoductCartBTN;
