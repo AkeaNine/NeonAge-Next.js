@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import prisma from "../../../../db/client";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -16,7 +15,7 @@ export async function GET(req: NextRequest) {
           return;
         }
         console.log("working");
-        return new NextResponse(JSON.stringify(user.cart), {status: 200});
+        return NextResponse.json(user.cart);
       }
   } catch (error: any) {
     return new NextResponse("something went wrong", {status: 500})

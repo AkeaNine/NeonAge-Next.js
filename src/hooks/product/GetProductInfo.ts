@@ -24,6 +24,7 @@ async function GettagsName({ product }: any) {
 }
 
 async function GetcategoriesName({ product }: any) {
+
   const categories = [];
   if (product && product.category) {
     for (const catRef of product.category) {

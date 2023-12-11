@@ -47,7 +47,7 @@ const ProdSizeColPrice = ({
           </div>
           <p className=" text-base font-semibold">
             Price:&nbsp;
-            <span className="font-bold text-lg">{price * (1 - discount / 100)}৳</span>
+            <span className="font-bold text-lg">{Math.round(price * (1 - discount / 100))}৳</span>
           </p>
         </div>
       ) : (

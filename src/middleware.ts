@@ -1,10 +1,11 @@
 import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 // For the time being, the withAuth middleware only supports "jwt" as session strategy.
 export default async function middleware(req: NextRequest) {
-  console.log(req.nextUrl.pathname + "1");
+  // console.log(req.nextUrl.pathname + "1");
 
   const token = await getToken({ req });
   const isAuthenticated = !!token;
@@ -14,11 +15,11 @@ export default async function middleware(req: NextRequest) {
 
   if (isAuthenticated) {
     if (req.nextUrl.pathname.startsWith("/account/signup")) {
-      return NextResponse.redirect(new URL("/account", req.url));
+      return redirect("/account");
     }
 
     if (req.nextUrl.pathname.startsWith("/account/signin")) {
-      return NextResponse.redirect(new URL("/account", req.url));
+      return redirect("/account");
     }
   }
 
@@ -43,12 +44,13 @@ export default async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith("/account/signup")) {
       return;
     }
-    return NextResponse.redirect(new URL("/account/signin", req.url));
+    const signInUrl = new URL("/account/signin", req.url)
+    return NextResponse.redirect(signInUrl);
   }
   return;
   // }
 }
 
 export const config = {
-  matcher: ["/account", "/account/signup", "/account/signin"],
+  matcher: ["/account"],
 };

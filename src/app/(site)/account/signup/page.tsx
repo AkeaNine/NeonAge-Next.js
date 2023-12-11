@@ -1,3 +1,4 @@
+import { SignUp } from "@clerk/nextjs";
 import ContentWrapper from "../../MainComponents/ContentWrapper";
 import MainFooter from "../../MainComponents/MainFooter";
 import Navigation from "../../MainComponents/Navigation";

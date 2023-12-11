@@ -2,13 +2,14 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../db/client";
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest
+): Promise<void | Response> {
   const data = await request.json();
   console.log(data);
   const session = await getServerSession();
 
   if (session?.user?.email) {
-    
     try {
       await prisma.user.update({
         where: {
@@ -26,5 +27,5 @@ export async function POST(request: NextRequest) {
       );
     }
   }
-  return null;
+  return;
 }

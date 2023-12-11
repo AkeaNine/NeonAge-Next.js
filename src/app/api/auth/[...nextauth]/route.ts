@@ -7,8 +7,6 @@ import bcrypt from "bcrypt";
 
 const dbAdapter = PrismaAdapter(prisma);
 
-console.log("access granted");
-
 const authOptions: AuthOptions = {
   adapter: dbAdapter,
   providers: [

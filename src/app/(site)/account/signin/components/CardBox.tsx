@@ -36,7 +36,6 @@ const CardBox = () => {
   } = form;
 
   const OnFormSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     setIsLOading(true);
     try {
       signIn("credentials", {
@@ -56,7 +55,10 @@ const CardBox = () => {
       });
     } catch (error: any) {
       setIsLOading(false);
-      console.log("Something went wrong");
+      toast({
+        variant: "destructive",
+        description: "Something went wrong. Please refresh and try again",
+      });
     }
   };
 

@@ -1,14 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-// @ts-ignore
-const initialState = Cookies.get("cart") ? {cartItems: JSON.parse(Cookies.get("cart")), loading: true} : {
-  cartItems: [],
-  loading: true
-};
+// Cookies.remove("cart")
 
-console.log(initialState);
+const initialState = Cookies.get("cart")
+  ? // @ts-ignore
+    { ...JSON.parse(Cookies.get("cart")), loading: true }
+  : {
+      cartItems: [],
+      loading: true,
+    };
 
 function setCookieCart(items: any) {
   Cookies.set("cart", JSON.stringify(items));
@@ -24,6 +26,12 @@ async function updateDBCart(cart: any) {
   }
 }
 
+export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
+  const response = await axios.get("/api/user/getCartData");
+  const data = await JSON.parse(response.data);
+  return data;
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -31,8 +39,6 @@ const cartSlice = createSlice({
     adCartItem: (state, action) => {
       const product = action.payload.prodToAdd;
       const authenticated = action.payload.authenticated;
-      const initCart = state.cartItems;
-      console.log(initCart);
 
       const existingProdIndex = state.cartItems.findIndex(
         (item: any) =>
@@ -42,10 +48,8 @@ const cartSlice = createSlice({
       );
 
       if (existingProdIndex !== -1) {
-        // If the product already exists, update it
         state.cartItems[existingProdIndex] = product;
       } else {
-        // If the product is not in the cart, add it
         state.cartItems.push(product);
       }
 
@@ -56,10 +60,42 @@ const cartSlice = createSlice({
         setCookieCart(state);
       }
     },
-    removeCartItem: (state, action) => {},
+    removeCartItem: (state, action) => {
+      const product = action.payload.prodToRemove;
+      const authenticated = action.payload.authenticated;
+      const existingProdIndex = state.cartItems.findIndex(
+        (item: any) =>
+          item.id === product.id &&
+          item.color === product.color &&
+          item.size === product.size
+      );
+      state.cartItems.splice(existingProdIndex, 1);
+      if (authenticated) {
+        updateDBCart(state.cartItems);
+        setCookieCart(state);
+      } else {
+        setCookieCart(state);
+      }
+    },
     hideLoading: (state) => {
       state.loading = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCart.pending, (state: any) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchCart.fulfilled, (state: any, action: any) => {
+      state.loading = false;
+      // Add any fetched posts to the array
+      state.cartItems = action.payload;
+      Cookies.set("cart", JSON.stringify(state));
+      // return state;
+    });
+    // .addCase(fetchCart.rejected, (state, action) => {
+    //   state.status = ;
+    //   state.error = action.error.message;
+    // });
   },
 });
 

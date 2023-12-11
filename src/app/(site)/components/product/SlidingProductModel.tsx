@@ -27,29 +27,33 @@ const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
           {product.discount > 0 && <p>-{product.discount}%</p>}
         </div>
         {/* @ts-ignore */}
-        <Link href={`/products/${product._id}`}><ProductImage image={product.colors[0].dp} /></Link>
+        <Link href={`/products/${product._id}`}>
+          <ProductImage image={product.colors[0].dp} />
+        </Link>
       </div>
       {/* </Link> */}
-      <CardHeader className="p-3">
-        <CardTitle className="text-md font-normal h-10 hover:underline">
+      <CardHeader className="pt-2 pb-0 px-3">
+        <CardTitle className="hover:underline">
           {/* @ts-ignore */}
           <Link href={`/products/${product._id}`}>
             {/* @ts-ignore */}
-            <p className="line-clamp-2 text-md md:text-lg">{product.title}</p>
+            <p className="line-clamp-2 text-sm md:text-lg tracking-wider">
+              {product.title}
+            </p>
           </Link>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-3 pt-0">
-        <div className="h-10">
+      <CardContent className="p-0 px-3">
+        <div className="">
           {/* @ts-ignore */}
           {product.discount > 0 ? (
             <>
-              <p className="">
-                {/* @ts-ignore */}
-                {product.price * (1 - product.discount / 100)}৳
-              </p>
               {/* @ts-ignore */}
-              <p className="text-red-500 line-through">{product.price}৳</p>
+              <p className="text-red-500 text-sm line-through">{product.price}৳</p>
+              <p className="text-lg">
+                {/* @ts-ignore */}
+                {Math.round(product.price * (1 - product.discount / 100))}৳
+              </p>
             </>
           ) : (
             <div>
@@ -61,10 +65,12 @@ const SlidingProductModel: React.FC<SlidingProductModelProps> = ({
       </CardContent>
       <CardFooter className="p-3 pt-0">
         <div className="w-full flex items-center">
-          <SlidingPoductCartBTN id={product._id} color={product.colors[0].color} size={product.colors[0].sfs[0].size} title={product.title}/>
-          <button className="ml-2 border border-gray-500 rounded-sm p-1">
-            <AiOutlineHeart size={22} />
-          </button>
+          <SlidingPoductCartBTN
+            id={product._id}
+            color={product.colors[0].color}
+            size={product.colors[0].sfs[0].size}
+            title={product.title}
+          />
         </div>
       </CardFooter>
     </Card>

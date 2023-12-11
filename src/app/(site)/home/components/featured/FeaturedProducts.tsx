@@ -10,6 +10,7 @@ const FeaturedProducts = async () => {
   
 
   return (
+    //@ts-ignore
       <CarouselBox products={products}/>
   );
 };

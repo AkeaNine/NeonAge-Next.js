@@ -30,7 +30,7 @@ function SheetBar() {
                 </SheetTitle>
                 <SheetClose>
                   <div className="border border-dashed">
-                    <IoCloseSharp size={25} />
+                    <IoCloseSharp style={{height: "200px", width: "200px"}} />
                   </div>
                 </SheetClose>
               </div>

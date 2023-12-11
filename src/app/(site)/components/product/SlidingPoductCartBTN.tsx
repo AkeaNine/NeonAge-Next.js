@@ -26,8 +26,6 @@ const SlidingPoductCartBTN = ({
   const session = useSession();
   const { toast } = useToast();
 
-  console.log(id, color, size);
-
   async function HandleButtonClick() {
     setIsWorking(true);
     const prodToAdd = { id: id, qty: 1, color: color, size: size, title: title };
